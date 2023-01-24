@@ -1,6 +1,6 @@
 import { MagnifyingGlass } from 'phosphor-react'
 
-export function SearchChat() {
+export function ChatSearch() {
   return (
     <div className="shadow-lg h-16 flex items-center justify-center px-4">
       <form className="w-full  flex flex-row gap-4 items-center bg-zinc-800 rounded-lg px-4">

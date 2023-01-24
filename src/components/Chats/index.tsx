@@ -1,12 +1,12 @@
 import { ChatList } from "../ChatList";
-import { Menu } from "../Menu";
-import { SearchChat } from "../SearchChat";
+import { ChatsHeader } from "../ChatsHeader";
+import { ChatSearch } from "../ChatSearch";
 
 export function Chats() {
     return (
         <div className="max-w-sm h-full w-full bg-zinc-900 flex flex-col">
-            <Menu />
-            <SearchChat />
+            <ChatsHeader />
+            <ChatSearch />
             <ChatList />
         </div>
     )
