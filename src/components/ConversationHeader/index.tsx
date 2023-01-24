@@ -2,7 +2,7 @@ import { DotsThreeVertical } from 'phosphor-react'
 
 export function ConversationHeader() {
   return (
-    <div className="w-full h-16 bg-blue-600 border-l-2 border-blue-400 flex flex-row items-center px-4 gap-4">
+    <div className="w-full h-16 bg-blue-600 border-l-2 border-blue-400 flex flex-row items-center px-4 gap-4 shadow-lg">
       <img
         src="https://randomuser.me/api/portraits/men/45.jpg"
         className="w-10 h-10 rounded-full"
