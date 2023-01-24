@@ -9,7 +9,7 @@ export function ConversationTileSent({ message }: ConversationTileSentProps) {
         <span className="bg-zinc-900 text-white rounded-tl-lg rounded-tr-lg rounded-bl-lg p-4 shadow-md">
           {message}
         </span>
-        <span className="text-sm text-slate-500">22 hours ago</span>
+        <span className="text- text-gray-500">22 hours ago</span>
       </div>
     </div>
   );

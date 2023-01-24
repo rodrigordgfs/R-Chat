@@ -14,7 +14,7 @@ export function ConversatinTileReceived({
         <span className="bg-zinc-600 text-white rounded-tl-lg rounded-tr-lg rounded-br-lg p-4 shadow-md">
           {message}
         </span>
-        <span className="text-sm text-slate-500">22 hours ago</span>
+        <span className="text-sm text-gray-500">22 hours ago</span>
       </div>
     </div>
   );
