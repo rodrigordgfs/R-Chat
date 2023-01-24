@@ -89,7 +89,7 @@ const CHATS = [
 
 export function ChatList() {
   return (
-    <div className="flex-1 overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-blue-800 scrollbar-track-blue-300 divide-y divide-solid divide-blue-500">
+    <div className="flex-1 overflow-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-zinc-600 divide-y divide-solid divide-zinc-800">
       {CHATS.map(({ image, name, lastMessage, datetime }, index) => (
         <ChatTile
           key={index}
