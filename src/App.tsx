@@ -4,7 +4,7 @@ import { Conversation } from "./components/Conversation"
 function App() {
   return (
     <main className="bg-blue-300 w-screen h-screen flex justify-center">
-      <div className="w-3/4 h-96 bg-white mx-0 my-auto flex flex-row rounded-lg shadow-md">
+      <div className="w-screen h-screen bg-white mx-0 my-auto flex flex-row shadow-md">
         <Chats />
         <Conversation />
       </div>
