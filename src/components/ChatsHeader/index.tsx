@@ -1,9 +1,17 @@
-import { ChatText, Gear, ShareNetwork, SignOut } from "phosphor-react";
+import { ChatText, Gear, ShareNetwork, SignOut, Sparkle } from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChatsMenu } from "../ChatsMenu";
 import { Profile } from "../Profile";
+import { useNavigate } from "react-router-dom";
 
 export function ChatsHeader() {
+  const navigate = useNavigate();
+
+  function handleSignOut() {
+    localStorage.removeItem("user");
+    navigate("/login");
+  }
+
   return (
     <div className="h-16 flex flex-row items-center justify-between gap-5 px-4">
       <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
@@ -36,13 +44,16 @@ export function ChatsHeader() {
               <DropdownMenu.Separator className="DropdownMenuSeparator" />
 
               <DropdownMenu.Item className="flex flex-row items-center px-6 py-2 gap-4 hover:bg-zinc-400 transition-colors cursor-pointer">
-                <ShareNetwork size={20} className="text-white" />
-                <p className="text-white">Share</p>
+                <Sparkle size={20} className="text-white" />
+                <p className="text-white">About</p>
               </DropdownMenu.Item>
 
               <DropdownMenu.Separator className="DropdownMenuSeparator" />
 
-              <DropdownMenu.Item className="flex flex-row items-center px-6 py-2 gap-4 rounded-bl-lg rounded-br-lg hover:bg-zinc-400 transition-colors cursor-pointer">
+              <DropdownMenu.Item
+                onClick={handleSignOut}
+                className="flex flex-row items-center px-6 py-2 gap-4 rounded-bl-lg rounded-br-lg hover:bg-zinc-400 transition-colors cursor-pointer"
+              >
                 <SignOut size={20} className="text-white" />
                 <p className="text-white">Sign Out</p>
               </DropdownMenu.Item>

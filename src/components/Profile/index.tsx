@@ -1,10 +1,20 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Article, Image, Person, X } from "phosphor-react";
-import { FormEvent, useState } from "react";
+import { Article, Envelope, Image, Person, X } from "phosphor-react";
+import { FormEvent, useEffect, useState } from "react";
 
 export function Profile() {
-    const [name, setName] = useState("Rodrigo Shinoda");
+    const [image, setImage] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [about, setAbout] = useState("I'm a web developer ReactJS and VueJS");
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user") || "{}")
+        
+        setImage(user.photoURL);
+        setName(user.displayName);
+        setEmail(user.email);
+    }, [])
 
     function handleSaveProfile(e: FormEvent) {
         e.preventDefault();
@@ -15,7 +25,7 @@ export function Profile() {
       <Dialog.Trigger>
         <div className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
           <img
-            src="https://i.imgur.com/8LNBW16.jpg"
+            src={image}
             className="h-8 w-8 rounded-full"
           />
         </div>
@@ -34,7 +44,7 @@ export function Profile() {
             <div className="h-44 w-44 rounded-full shadow-lg flex items-center justify-center bg-zinc-900">
               <div className="relative">
                 <img
-                  src="https://i.imgur.com/8LNBW16.jpg"
+                  src={image}
                   className="h-40 w-40 rounded-full"
                 />
                 <div className="absolute bottom-0 right-0 h-10 w-10 rounded-full flex items-center justify-center shadow-lg bg-zinc-900 hover:bg-zinc-700 transition-colors cursor-pointer">
@@ -44,6 +54,16 @@ export function Profile() {
             </div>
           </Dialog.Title>
           <form className="flex flex-col mt-6 gap-4" onSubmit={handleSaveProfile}>
+            <div className="flex flex-row items-center rounded-lg gap-4 p-4 bg-zinc-900">
+              <Envelope size={20} className="text-zinc-400" />
+              <input
+                type="email"
+                placeholder="Email"
+                className="bg-transparent text-gray-500 outline-none w-full"
+                value={email}
+                readOnly
+              />
+            </div>
             <div className="flex flex-row items-center rounded-lg gap-4 p-4 bg-zinc-900">
               <Person size={20} className="text-zinc-400" />
               <input
