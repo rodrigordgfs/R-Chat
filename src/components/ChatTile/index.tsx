@@ -23,9 +23,9 @@ export function ChatTile({
       <div className="flex-1 flex flex-col">
         <div className="flex flex-row items-center justify-between gap-2">
           <span className="text-white font-bold leading-tight">{name}</span>
-          <span className="text-white text-sm">{dateDistance}</span>
+          <span className="text-gray-400 text-sm">{dateDistance}</span>
         </div>
-        <span className="text-sm text-zinc-200">{lastMessage}</span>
+        <span className="text-sm text-gray-400">{lastMessage}</span>
       </div>
     </div>
   );

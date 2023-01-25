@@ -1,15 +1,13 @@
 import { ChatText, Gear, ShareNetwork, SignOut } from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChatsMenu } from "../ChatsMenu";
+import { Profile } from "../Profile";
 
 export function ChatsHeader() {
   return (
     <div className="h-16 flex flex-row items-center justify-between gap-5 px-4">
       <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
-        <img
-          src="https://randomuser.me/api/portraits/men/45.jpg"
-          className="h-7 w-7 rounded-full"
-        />
+        <Profile />
       </div>
       <div className="flex flex-row">
         <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
