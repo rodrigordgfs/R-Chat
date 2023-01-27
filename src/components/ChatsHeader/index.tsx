@@ -1,7 +1,5 @@
-import { ChatText, Gear, ShareNetwork, SignOut, Sparkle } from "phosphor-react";
-import { ChatsMenu } from "../ChatsMenu";
+import { ChatText } from "phosphor-react";
 import { Profile } from "../Profile";
-import { useNavigate } from "react-router-dom";
 
 export function ChatsHeader() {
   return (
