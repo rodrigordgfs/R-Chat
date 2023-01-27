@@ -1,7 +1,9 @@
 import { useEffect } from "react"
 import { Chats } from "../../components/Chats"
-import { Conversation } from "../../components/Conversation"
 import { useNavigate } from "react-router-dom";
+import { ConversationHeader } from "../../components/ConversationHeader";
+import { ConversationChat } from "../../components/ConversationChat";
+import { ConversationInput } from "../../components/ConversationInput";
 
 export function Home() {
   const navigate = useNavigate();
@@ -15,9 +17,10 @@ export function Home() {
 
   return (
     <main className="bg-zinc-300 w-screen h-screen flex justify-center">
-      <div className="w-screen h-screen bg-white mx-0 my-auto flex flex-row shadow-md">
-        <Chats />
-        <Conversation />
+      <div className="w-screen h-screen bg-white mx-0 my-auto flex flex-col shadow-md">
+        <ConversationHeader />
+        <ConversationChat />
+        <ConversationInput />
       </div>
     </main>
   )
