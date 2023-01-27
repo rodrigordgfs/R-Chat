@@ -14,7 +14,7 @@ export function Home() {
         navigate("/login");
       }
   }, [])
-
+ 
   return (
     <main className="bg-zinc-300 w-screen h-screen flex justify-center">
       <div className="w-screen h-screen bg-white mx-0 my-auto flex flex-col shadow-md">
