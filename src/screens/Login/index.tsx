@@ -9,7 +9,6 @@ export function Login() {
   function handleSignIn() {
     signInWithGoogle().then(() => {
       const user = JSON.parse(localStorage.getItem("user") || "{}");
-      console.log(user);
       if (user?.uid) {
         navigate("/");
       }

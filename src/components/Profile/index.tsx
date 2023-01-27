@@ -6,7 +6,7 @@ export function Profile() {
     const [image, setImage] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [about, setAbout] = useState("I'm a web developer ReactJS and VueJS");
+    const [about, setAbout] = useState("");
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user") || "{}")
@@ -40,7 +40,7 @@ export function Profile() {
               className="absolute right-6 top-6 text-zinc-400 hover:text-zinc-600"
             />
           </Dialog.Close>
-          <Dialog.Title className="flex flex-row items-center justify-center -mt-28">
+          <Dialog.Title className="flex flex-row items-center justify-center -mt-36">
             <div className="h-44 w-44 rounded-full shadow-lg flex items-center justify-center bg-zinc-900">
               <div className="relative">
                 <img
