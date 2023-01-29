@@ -1,11 +1,16 @@
-import { Smiley, PaperPlaneRight, Paperclip } from "phosphor-react";
+import { PaperPlaneRight, Paperclip } from "phosphor-react";
 import { FormEvent, useState } from "react";
+import { EmojiPicker } from "../EmojiPicker";
 
 export function ConversationInput() {
   const [message, setMessage] = useState<string>("");
 
   function handleSendMessage(e: FormEvent) {
     e.preventDefault();
+  }
+
+  function handleEmojiSelected(emoji: any) {
+    setMessage((prev) => prev.concat(emoji.native));
   }
 
   return (
@@ -16,7 +21,7 @@ export function ConversationInput() {
       >
         <div className="flex flex-row items-center gap-2">
           <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-zinc-800 transition-colors cursor-pointer">
-            <Smiley size={28} className="text-white" />
+            <EmojiPicker onEmojiSelect={handleEmojiSelected} />
           </div>
           <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-zinc-800 transition-colors cursor-pointer">
             <Paperclip size={28} className="text-white" />
