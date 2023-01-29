@@ -1,18 +1,38 @@
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import { FcGoogle } from "react-icons/fc";
-import { signInWithGoogle } from "../../libs/firebase";
+import { authFirebase, providerGoogleFirebase } from "../../libs/firebase";
+import { UserContext } from "../../contexts/user";
+import { UserCredential, signInWithPopup } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
 
 export function Login() {
   const navigate = useNavigate();
+  const { handleSetUser, isLoggedIn } = useContext(UserContext);
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      navigate("/");
+    }
+  }, []);
 
   function handleSignIn() {
-    signInWithGoogle().then(() => {
-      const user = JSON.parse(localStorage.getItem("user") || "{}");
-      if (user?.uid) {
+    signInWithPopup(authFirebase, providerGoogleFirebase)
+      .then(({ user }: UserCredential) => {
+        handleSetUser(user);
         navigate("/");
-      }
-    });
+      })
+      .catch((error) =>
+        toast.error(error, {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          theme: "colored",
+        })
+      );
   }
 
   return (
@@ -28,6 +48,7 @@ export function Login() {
           <FcGoogle size={24} className="drop-shadow-lg" /> Sign in with Google
         </button>
       </div>
+      <ToastContainer />
     </main>
   );
 }

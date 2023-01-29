@@ -1,20 +1,23 @@
-import { DotsThreeVertical, Gear, List, SignOut, Sparkle } from "phosphor-react";
+import {
+  DotsThreeVertical,
+  Gear,
+  List,
+  SignOut,
+  Sparkle,
+} from "phosphor-react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Drawer from "react-modern-drawer";
-import { useState } from "react";
-import 'react-modern-drawer/dist/index.css'
+import { useContext, useState } from "react";
+import "react-modern-drawer/dist/index.css";
 import { Chats } from "../Chats";
 import { ChatsMenu } from "../ChatsMenu";
 import { useNavigate } from "react-router-dom";
+import { SettingsContext } from "../../contexts/settings";
 
 export function ConversationHeader() {
-  const [isOpen, setIsOpen] = useState(false);
-
   const navigate = useNavigate();
-  
-  function toggleDrawer() {
-    setIsOpen((prevState) => !prevState);
-  }
+
+  const { isModalOpen, toogleModal } = useContext(SettingsContext);
 
   function handleSignOut() {
     localStorage.removeItem("user");
@@ -22,10 +25,10 @@ export function ConversationHeader() {
   }
 
   return (
-    <div className="w-full h-16 bg-zinc-900 border-l-2 border-zinc-800 flex flex-row items-center px-4 gap-4 shadow-lg">
+    <div className="w-full h-16 bg-zinc-900 border-l-2 border-zinc-800 flex flex-row items-center px-4 shadow-lg">
       <Drawer
-        open={isOpen}
-        onClose={toggleDrawer}
+        open={isModalOpen}
+        onClose={toogleModal}
         direction="left"
         overlayOpacity={0.8}
         size={350}
@@ -35,7 +38,7 @@ export function ConversationHeader() {
       <div className="flex flex-row items-center gap-4">
         <div
           className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-zinc-800 transition-colors cursor-pointer"
-          onClick={toggleDrawer}
+          onClick={toogleModal}
         >
           <List size={24} className="text-white" />
         </div>
@@ -44,12 +47,12 @@ export function ConversationHeader() {
           className="w-10 h-10 rounded-full"
         />
       </div>
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 ml-4 flex flex-col">
         <span className="text-white font-bold">John Doe</span>
         <span className="text-white text-xs">Active 1h ago</span>
       </div>
       <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
-      <DropdownMenu.Root>
+        <DropdownMenu.Root>
           <DropdownMenu.Trigger>
             <ChatsMenu />
           </DropdownMenu.Trigger>

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDWmu4ucAhHerz93jfNAVVgO7kuoZn1JmY",
@@ -9,23 +9,11 @@ const firebaseConfig = {
   storageBucket: "r-chat-c463f.appspot.com",
   messagingSenderId: "514787125968",
   appId: "1:514787125968:web:ec3d0e5aafea28fed18cd5",
-  measurementId: "G-ZQGR47C5TD"
+  measurementId: "G-ZQGR47C5TD",
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+export const appFirebase = initializeApp(firebaseConfig);
+export const authFirebase = getAuth(appFirebase);
 
-const provider = new GoogleAuthProvider();
-
-export const signInWithGoogle = () =>
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      localStorage.setItem("user", JSON.stringify(result.user));
-    })
-    .catch((error) => alert(error));
-
-export const isLogedIn = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  return !!user?.uid;
-};
+export const providerGoogleFirebase = new GoogleAuthProvider();
