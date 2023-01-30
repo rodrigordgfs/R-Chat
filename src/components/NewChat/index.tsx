@@ -15,7 +15,7 @@ export function NewChat({ smallIcon }: NewChatProps) {
 
   function handleNewChat(e: FormEvent) {
     e.preventDefault();
-    handleCreateNewChat({ email });
+    handleCreateNewChat(email);
   }
 
   return (

@@ -46,7 +46,7 @@ export function ConversationHeader() {
         </div>
         {activeChatID && (
           <img
-            src={currentChat.user.photoURL}
+            src={currentChat?.user?.photoURL}
             className="w-10 h-10 rounded-full"
           />
         )}
@@ -55,10 +55,10 @@ export function ConversationHeader() {
         {activeChatID ? (
           <>
             <span className="text-white font-bold">
-              {currentChat.user.name}
+              {currentChat?.user?.name}
             </span>
             <span className="text-white text-xs">
-              {currentChat.messages.length > 0 &&
+              {currentChat?.messages?.length > 0 &&
                 formatDistanceToNow(
                   new Date(
                     new Date(

@@ -7,20 +7,12 @@ interface ChatsSettingsContextType {
   isChatListEmpty: boolean;
   currentChat: ChatProps;
   chats: ChatProps[];
-  handleCreateNewChat: (props: handleCreateNewChatProps) => void;
+  handleCreateNewChat: (email: string) => void;
   handleSetAdctiveChatID: (id: string) => void;
 }
 
 interface ChatsContextProps {
   children: ReactNode;
-}
-
-interface handleCreateNewChatProps {
-  email: string;
-}
-
-interface handleCreateNewUserProps {
-  email: string;
 }
 
 interface UserProps {
@@ -50,28 +42,24 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
   const [activeChatID, setActiveChatID] = useState("");
   const [currentChat, setCurrentChat] = useState({} as ChatProps);
 
+  const isChatListEmpty = chats.length === 0;
+
   useEffect(() => {
+    console.log("chats", chats);
     setCurrentChat(chats.find((chat) => chat.id === activeChatID) as ChatProps);
   }, [activeChatID]);
 
-  const isChatListEmpty = chats.length === 0;
-
-  function handleCreateNewUser({ email }: handleCreateNewUserProps) {
-    const newUser = {
-      id: uuidv4(),
-      name: PERSON_NAMES[Math.floor(Math.random() * PERSON_NAMES.length)],
-      photoURL: `https://randomuser.me/api/portraits/men/${
-        Math.floor(Math.random() * 50) + 1
-      }.jpg`,
-      email: email,
-    };
-    return newUser;
-  }
-
-  function handleCreateNewChat({ email }: handleCreateNewChatProps) {
+  function handleCreateNewChat(email: string) {
     const newChat = {
       id: uuidv4(),
-      user: handleCreateNewUser({ email }),
+      user: {
+        id: uuidv4(),
+        name: PERSON_NAMES[Math.floor(Math.random() * PERSON_NAMES.length)],
+        photoURL: `https://randomuser.me/api/portraits/men/${
+          Math.floor(Math.random() * 50) + 1
+        }.jpg`,
+        email: email,
+      },
       messages: [] as MessageProps[],
     };
     setChats((prevChats) => [...prevChats, newChat]);
