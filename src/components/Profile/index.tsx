@@ -41,7 +41,7 @@ export function Profile() {
           <Dialog.Close>
             <X
               size={24}
-              aria-aria-label="Fechar"
+              aria-label="Fechar"
               className="absolute right-6 top-6 text-zinc-400 hover:text-zinc-600"
             />
           </Dialog.Close>
@@ -90,7 +90,7 @@ export function Profile() {
             </div>
             <button
               type="submit"
-              className="py-3 rounded-lg shadow-lg font-semibold w-full bg-blue-700 text-white"
+              className="py-3 rounded-lg shadow-lg font-semibold w-full bg-blue-700 hover:bg-blue-600 transition-colors text-white"
             >
               Save
             </button>

@@ -1,7 +1,11 @@
 import { formatDistanceToNow } from "date-fns";
 import { Avatar } from "../Avatar";
+import { useContext } from "react";
+import { ChatsContext } from "../../contexts/chats";
+import { SettingsContext } from "../../contexts/settings";
 
 interface ChatTileProps {
+  id: string;
   image: string;
   name: string;
   lastMessage: string;
@@ -9,23 +13,42 @@ interface ChatTileProps {
 }
 
 export function ChatTile({
+  id,
   image,
   name,
   lastMessage,
   datetime,
 }: ChatTileProps) {
-  const dateDistance = formatDistanceToNow(new Date(datetime), {
-    addSuffix: true,
-  });
+  const { handleSetAdctiveChatID } = useContext(ChatsContext);
+  const { toogleModal } = useContext(SettingsContext);
+
+  const dateDistance =
+    datetime &&
+    formatDistanceToNow(new Date(datetime), {
+      addSuffix: true,
+    });
+
+  function handleClickTileMessage() {
+    handleSetAdctiveChatID(id);
+    toogleModal();
+  }
+
   return (
-    <div className="flex flex-row items-center gap-4 p-4 hover:bg-zinc-800 transition-colors cursor-pointer">
+    <div
+      className="flex flex-row items-center gap-4 p-4 hover:bg-zinc-800 transition-colors cursor-pointer"
+      onClick={handleClickTileMessage}
+    >
       <Avatar image={image} />
       <div className="flex-1 flex flex-col">
         <div className="flex flex-row items-center justify-between gap-2">
           <span className="text-white font-bold leading-tight">{name}</span>
-          <span className="text-gray-400 text-sm">{dateDistance}</span>
+          {datetime && (
+            <span className="text-gray-400 text-sm">{dateDistance}</span>
+          )}
         </div>
-        <span className="text-sm text-gray-400">{lastMessage}</span>
+        {lastMessage && (
+          <span className="text-sm text-gray-400">{lastMessage}</span>
+        )}
       </div>
     </div>
   );

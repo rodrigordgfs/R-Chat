@@ -5,19 +5,21 @@ import {
   SignOut,
   Sparkle,
 } from "phosphor-react";
+import { formatDistanceToNow } from "date-fns";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Drawer from "react-modern-drawer";
 import { useContext, useState } from "react";
 import "react-modern-drawer/dist/index.css";
 import { Chats } from "../Chats";
-import { ChatsMenu } from "../ChatsMenu";
 import { useNavigate } from "react-router-dom";
 import { SettingsContext } from "../../contexts/settings";
+import { ChatsContext } from "../../contexts/chats";
 
 export function ConversationHeader() {
   const navigate = useNavigate();
 
   const { isModalOpen, toogleModal } = useContext(SettingsContext);
+  const { activeChatID, currentChat } = useContext(ChatsContext);
 
   function handleSignOut() {
     localStorage.removeItem("user");
@@ -42,19 +44,49 @@ export function ConversationHeader() {
         >
           <List size={24} className="text-white" />
         </div>
-        <img
-          src="https://randomuser.me/api/portraits/men/45.jpg"
-          className="w-10 h-10 rounded-full"
-        />
+        {activeChatID && (
+          <img
+            src={currentChat.user.photoURL}
+            className="w-10 h-10 rounded-full"
+          />
+        )}
       </div>
       <div className="flex-1 ml-4 flex flex-col">
-        <span className="text-white font-bold">John Doe</span>
-        <span className="text-white text-xs">Active 1h ago</span>
+        {activeChatID ? (
+          <>
+            <span className="text-white font-bold">
+              {currentChat.user.name}
+            </span>
+            <span className="text-white text-xs">
+              {currentChat.messages.length > 0 &&
+                formatDistanceToNow(
+                  new Date(
+                    new Date(
+                      currentChat.messages[
+                        currentChat.messages.length - 1
+                      ].datetime
+                    )
+                  ),
+                  {
+                    addSuffix: true,
+                  }
+                )}
+            </span>
+          </>
+        ) : (
+          <>
+            <h1 className="text-white font-semibold text-xl hover:text-blue-600 transition-colors cursor-pointer">
+              R Chat
+            </h1>
+          </>
+        )}
       </div>
       <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
-            <ChatsMenu />
+            <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
+              <DotsThreeVertical size={20} className="text-white" />
+            </div>
           </DropdownMenu.Trigger>
 
           <DropdownMenu.Portal>

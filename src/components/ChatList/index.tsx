@@ -1,104 +1,35 @@
+import { ChatText } from "phosphor-react";
 import { ChatTile } from "../ChatTile";
-
-const CHATS = [
-  {
-    image: "https://randomuser.me/api/portraits/men/84.jpg",
-    name: "John Doe",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-01 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/23.jpg",
-    name: "Anne Mark",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-05 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/63.jpg",
-    name: "Mike Smith",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-12 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/62.jpg",
-    name: "Ahseem O'Neil",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-02 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/87.jpg",
-    name: "Jake Johnson",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2022-12-25 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/81.jpg",
-    name: "Paul Newman",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2022-12-29 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/86.jpg",
-    name: "John Doe",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2022-01-08 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/84.jpg",
-    name: "John Doe",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-01 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/23.jpg",
-    name: "Anne Mark",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-05 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/63.jpg",
-    name: "Mike Smith",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-12 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/62.jpg",
-    name: "Ahseem O'Neil",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2023-01-02 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/87.jpg",
-    name: "Jake Johnson",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2022-12-25 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/81.jpg",
-    name: "Paul Newman",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2022-12-29 12:00:00",
-  },
-  {
-    image: "https://randomuser.me/api/portraits/men/86.jpg",
-    name: "John Doe",
-    lastMessage: "Hey, how's it going?",
-    datetime: "2022-01-08 12:00:00",
-  },
-];
+import { useContext } from "react";
+import { ChatsContext } from "../../contexts/chats";
+import { NewChat } from "../NewChat";
 
 export function ChatList() {
+  const { isChatListEmpty, chats } = useContext(ChatsContext);
+
   return (
     <div className="flex-1 overflow-scroll overflow-x-hidden scrollbar-none divide-y divide-solid divide-zinc-800">
-      {CHATS.map(({ image, name, lastMessage, datetime }, index) => (
-        <ChatTile
-          key={index}
-          image={image}
-          name={name}
-          lastMessage={lastMessage}
-          datetime={datetime}
-        />
-      ))}
+      {isChatListEmpty ? (
+        <div className="flex-1 flex flex-col gap-2 items-center justify-center mt-10">
+          <p className="text-white w-48 text-center font-semibold">
+            You don't have any start-up son! To start click on the icon below.
+          </p>
+          <NewChat />
+        </div>
+      ) : (
+        <div>
+          {chats.map(({ id, messages, user }) => (
+            <ChatTile
+              key={id}
+              id={id}
+              image={user.photoURL}
+              name={user.name}
+              lastMessage={messages[messages.length - 1]?.message}
+              datetime={messages[messages.length - 1]?.datetime}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

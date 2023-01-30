@@ -3,6 +3,7 @@ import { Home } from "../screens/Home";
 import { Login } from "../screens/Login";
 import { SettingsContextProvider } from "../contexts/settings";
 import { UserContextProvider } from "../contexts/user";
+import { ChatsContextProvider } from "../contexts/chats";
 
 export function Router() {
   return (
@@ -13,7 +14,9 @@ export function Router() {
           element={
             <UserContextProvider>
               <SettingsContextProvider>
-                <Home />
+                <ChatsContextProvider>
+                  <Home />
+                </ChatsContextProvider>
               </SettingsContextProvider>
             </UserContextProvider>
           }

@@ -2,6 +2,7 @@ import { ChatText } from "phosphor-react";
 import { Profile } from "../Profile";
 import { useContext } from "react";
 import { SettingsContext } from "../../contexts/settings";
+import { NewChat } from "../NewChat";
 
 export function ChatsHeader() {
   return (
@@ -13,9 +14,7 @@ export function ChatsHeader() {
         R Chat
       </h1>
       <div className="flex flex-row">
-        <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
-          <ChatText size={20} className="text-white" />
-        </div>
+        <NewChat smallIcon />
       </div>
     </div>
   );
