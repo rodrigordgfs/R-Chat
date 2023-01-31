@@ -10,12 +10,15 @@ interface NewChatProps {
 
 export function NewChat({ smallIcon }: NewChatProps) {
   const [email, setEmail] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toogleModal } = useContext(SettingsContext);
   const { handleCreateNewChat } = useContext(ChatsContext);
 
   function handleNewChat(e: FormEvent) {
     e.preventDefault();
     handleCreateNewChat(email);
+    setEmail("");
+    // toogleModal();
   }
 
   return (

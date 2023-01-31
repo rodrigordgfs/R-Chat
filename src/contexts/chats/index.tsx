@@ -1,12 +1,21 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+} from "react";
+import { UserContext } from "../user";
 import { v4 as uuidv4 } from "uuid";
 import { PERSON_NAMES } from "../../utils/names";
+import { MESSAGES } from "../../utils/messages";
 
 interface ChatsSettingsContextType {
   activeChatID: string;
   isChatListEmpty: boolean;
   currentChat: ChatProps;
   chats: ChatProps[];
+  handleNewMessages: (message: string) => void;
   handleCreateNewChat: (email: string) => void;
   handleSetAdctiveChatID: (id: string) => void;
 }
@@ -44,8 +53,9 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
 
   const isChatListEmpty = chats.length === 0;
 
+  const { handleGetUser } = useContext(UserContext);
+
   useEffect(() => {
-    console.log("chats", chats);
     setCurrentChat(chats.find((chat) => chat.id === activeChatID) as ChatProps);
   }, [activeChatID]);
 
@@ -70,6 +80,36 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
     setActiveChatID(chatID);
   }
 
+  function handleChatMessage(message: string, userId: string) {
+    const newMessage = {
+      id: uuidv4(),
+      userID: userId,
+      message: message,
+      datetime: new Date().toISOString(),
+    } as MessageProps;
+    const chat = chats.filter((chat) => chat.id === activeChatID)[0];
+    chat.messages.push(newMessage);
+    const newChatsList = chats.map((data) => {
+      if (data.id === activeChatID) {
+        return chat;
+      }
+      return data;
+    });
+    setChats(newChatsList);
+    setCurrentChat(chat);
+  }
+
+  function handleNewMessages(message: string) {
+    handleChatMessage(message, handleGetUser().uid);
+    setTimeout(() => {
+      handleChatMessage(
+        MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
+        currentChat.user.id
+      );
+    }, Math.floor(Math.random() * (3000 - 1000 + 1)) + 1000);
+    console.log("chats", chats);
+  }
+
   return (
     <ChatsContext.Provider
       value={{
@@ -77,6 +117,7 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
         activeChatID,
         isChatListEmpty,
         currentChat,
+        handleNewMessages,
         handleCreateNewChat,
         handleSetAdctiveChatID,
       }}

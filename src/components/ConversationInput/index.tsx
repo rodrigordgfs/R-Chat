@@ -1,12 +1,17 @@
 import { PaperPlaneRight, Paperclip } from "phosphor-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { EmojiPicker } from "../EmojiPicker";
+import { ChatsContext } from "../../contexts/chats";
 
 export function ConversationInput() {
   const [message, setMessage] = useState<string>("");
 
+  const { handleNewMessages } = useContext(ChatsContext);
+
   function handleSendMessage(e: FormEvent) {
     e.preventDefault();
+    handleNewMessages(message);
+    setMessage("");
   }
 
   function handleEmojiSelected(emoji: any) {
