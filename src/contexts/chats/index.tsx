@@ -9,12 +9,14 @@ import { UserContext } from "../user";
 import { v4 as uuidv4 } from "uuid";
 import { PERSON_NAMES } from "../../utils/names";
 import { MESSAGES } from "../../utils/messages";
+import { toast } from "react-toastify";
 
 interface ChatsSettingsContextType {
   activeChatID: string;
   isChatListEmpty: boolean;
   currentChat: ChatProps;
   chats: ChatProps[];
+  checkIfEmailAlreadyExists: (email: string) => boolean;
   handleNewMessages: (message: string) => void;
   handleCreateNewChat: (email: string) => void;
   handleSetAdctiveChatID: (id: string) => void;
@@ -54,6 +56,8 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
   const isChatListEmpty = chats.length === 0;
 
   const { handleGetUser } = useContext(UserContext);
+
+  const checkIfEmailAlreadyExists = (email: string) => chats.some((chat) => chat.user.email === email);
 
   useEffect(() => {
     setCurrentChat(chats.find((chat) => chat.id === activeChatID) as ChatProps);
@@ -107,7 +111,6 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
         currentChat.user.id
       );
     }, Math.floor(Math.random() * (3000 - 1000 + 1)) + 1000);
-    console.log("chats", chats);
   }
 
   return (
@@ -117,6 +120,7 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
         activeChatID,
         isChatListEmpty,
         currentChat,
+        checkIfEmailAlreadyExists,
         handleNewMessages,
         handleCreateNewChat,
         handleSetAdctiveChatID,

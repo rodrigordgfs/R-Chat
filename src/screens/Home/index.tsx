@@ -6,6 +6,7 @@ import { ConversationInput } from "../../components/ConversationInput";
 import { UserContext } from "../../contexts/user";
 import { ChatsContext } from "../../contexts/chats";
 import { NoChatSelected } from "../../components/NoChatSelected";
+import { ToastContainer } from "react-toastify";
 
 export function Home() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export function Home() {
           <NoChatSelected />
         )}
       </div>
+      <ToastContainer />
     </main>
   );
 }

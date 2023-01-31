@@ -8,7 +8,7 @@ export function ChatList() {
   const { isChatListEmpty, chats } = useContext(ChatsContext);
 
   return (
-    <div className="flex-1 overflow-scroll overflow-x-hidden scrollbar-none divide-y divide-solid divide-zinc-800">
+    <div className="flex-1 overflow-scroll overflow-x-hidden scrollbar-none">
       {isChatListEmpty ? (
         <div className="flex-1 flex flex-col gap-2 items-center justify-center mt-10">
           <p className="text-white w-48 text-center font-semibold">
@@ -17,7 +17,7 @@ export function ChatList() {
           <NewChat />
         </div>
       ) : (
-        <div>
+        <div className="divide-y divide-solid divide-zinc-800">
           {chats.map(({ id, messages, user }) => (
             <ChatTile
               key={id}

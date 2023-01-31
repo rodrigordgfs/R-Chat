@@ -3,6 +3,7 @@ import { Avatar } from "../Avatar";
 import { useContext } from "react";
 import { ChatsContext } from "../../contexts/chats";
 import { SettingsContext } from "../../contexts/settings";
+import clsx from "clsx";
 
 interface ChatTileProps {
   id: string;
@@ -19,8 +20,8 @@ export function ChatTile({
   lastMessage,
   datetime,
 }: ChatTileProps) {
-  const { handleSetAdctiveChatID } = useContext(ChatsContext);
-  const { toogleModal } = useContext(SettingsContext);
+  const { handleSetAdctiveChatID, activeChatID } = useContext(ChatsContext);
+  const { toogleDrawer } = useContext(SettingsContext);
 
   const dateDistance =
     datetime &&
@@ -30,12 +31,12 @@ export function ChatTile({
 
   function handleClickTileMessage() {
     handleSetAdctiveChatID(id);
-    toogleModal();
+    toogleDrawer();
   }
 
   return (
     <div
-      className="flex flex-row items-center gap-4 p-4 hover:bg-zinc-800 transition-colors cursor-pointer"
+      className="flex flex-row items-center gap-4 p-4 hover:bg-blue-700 transition-colors cursor-pointer"
       onClick={handleClickTileMessage}
     >
       <Avatar image={image} />

@@ -10,7 +10,7 @@ export function Profile() {
   const [email, setEmail] = useState("");
   const [about, setAbout] = useState("");
 
-  const { toogleModal } = useContext(SettingsContext);
+  const { toogleDrawer } = useContext(SettingsContext);
   const { handleGetUser } = useContext(UserContext);
 
   const user = handleGetUser();
@@ -29,27 +29,27 @@ export function Profile() {
     <Dialog.Root>
       <Dialog.Trigger>
         <div
-          className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer"
-          onClick={toogleModal}
+          className="h-12 w-12 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer"
+          onClick={toogleDrawer}
         >
           <img src={image} className="h-8 w-8 rounded-full" />
         </div>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0" />
-        <Dialog.Content className="absolute p-10 bg-zinc-800 shadow-xl rounded-2xl w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <Dialog.Content className="absolute p-10 bg-zinc-800 shadow-xl rounded-2xl w-full max-w-md mx-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <Dialog.Close>
             <X
               size={24}
               aria-label="Fechar"
-              className="absolute right-6 top-6 text-zinc-400 hover:text-zinc-600"
+              className="absolute right-6 top-6 text-zinc-400 hover:text-blue-700"
             />
           </Dialog.Close>
           <Dialog.Title className="flex flex-row items-center justify-center -mt-36">
             <div className="h-44 w-44 rounded-full shadow-lg flex items-center justify-center bg-zinc-900">
               <div className="relative">
                 <img src={image} className="h-40 w-40 rounded-full" />
-                <div className="absolute bottom-0 right-0 h-10 w-10 rounded-full flex items-center justify-center shadow-lg bg-zinc-900 hover:bg-zinc-700 transition-colors cursor-pointer">
+                <div className="absolute bottom-0 right-0 h-10 w-10 rounded-full flex items-center justify-center shadow-lg bg-zinc-900 hover:bg-blue-700 transition-colors cursor-pointer">
                   <Image size={20} className="text-white" />
                 </div>
               </div>

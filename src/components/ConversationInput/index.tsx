@@ -10,8 +10,10 @@ export function ConversationInput() {
 
   function handleSendMessage(e: FormEvent) {
     e.preventDefault();
-    handleNewMessages(message);
-    setMessage("");
+    if (message.length > 0) {
+      handleNewMessages(message);
+      setMessage("");
+    }
   }
 
   function handleEmojiSelected(emoji: any) {
@@ -25,20 +27,17 @@ export function ConversationInput() {
         onSubmit={handleSendMessage}
       >
         <div className="flex flex-row items-center gap-2">
-          <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-zinc-800 transition-colors cursor-pointer">
+          <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-blue-700 transition-colors cursor-pointer">
             <EmojiPicker onEmojiSelect={handleEmojiSelected} />
-          </div>
-          <div className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-zinc-800 transition-colors cursor-pointer">
-            <Paperclip size={28} className="text-white" />
           </div>
         </div>
         <input
-          className="flex-1 h-12 rounded-lg bg-zinc-800 p-4 text-white placeholder:text-white"
+          className="flex-1 h-12 rounded-lg bg-zinc-800 p-4 text-white placeholder:text-white hover:outline-blue-700"
           placeholder="Write a message ..."
           value={message}
           onChange={(e) => setMessage(e.target.value.trim())}
         />
-        <button className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-zinc-800 transition-colors cursor-pointer">
+        <button className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-blue-700 transition-colors cursor-pointer">
           <PaperPlaneRight size={28} className="text-white" />
         </button>
       </form>

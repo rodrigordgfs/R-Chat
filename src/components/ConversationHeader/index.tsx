@@ -18,7 +18,7 @@ import { ChatsContext } from "../../contexts/chats";
 export function ConversationHeader() {
   const navigate = useNavigate();
 
-  const { isModalOpen, toogleModal } = useContext(SettingsContext);
+  const { isDrawerOpen, toogleDrawer } = useContext(SettingsContext);
   const { activeChatID, currentChat } = useContext(ChatsContext);
 
   function handleSignOut() {
@@ -29,8 +29,8 @@ export function ConversationHeader() {
   return (
     <div className="w-full h-16 bg-zinc-900 border-l-2 border-zinc-800 flex flex-row items-center px-4 shadow-lg">
       <Drawer
-        open={isModalOpen}
-        onClose={toogleModal}
+        open={isDrawerOpen}
+        onClose={toogleDrawer}
         direction="left"
         overlayOpacity={0.8}
         size={350}
@@ -39,8 +39,8 @@ export function ConversationHeader() {
       </Drawer>
       <div className="flex flex-row items-center gap-4">
         <div
-          className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-zinc-800 transition-colors cursor-pointer"
-          onClick={toogleModal}
+          className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-blue-700 transition-colors cursor-pointer"
+          onClick={toogleDrawer}
         >
           <List size={24} className="text-white" />
         </div>
@@ -75,16 +75,16 @@ export function ConversationHeader() {
           </>
         ) : (
           <>
-            <h1 className="text-white font-semibold text-xl hover:text-blue-600 transition-colors cursor-pointer">
+            <h1 className="text-white font-semibold text-xl hover:text-blue-700 transition-colors cursor-pointer">
               R Chat
             </h1>
           </>
         )}
       </div>
-      <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
+      <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
-            <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer">
+            <div className="h-10 w-10 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors cursor-pointer">
               <DotsThreeVertical size={20} className="text-white" />
             </div>
           </DropdownMenu.Trigger>
@@ -99,14 +99,14 @@ export function ConversationHeader() {
                 width={10}
                 height={10}
               />
-              <DropdownMenu.Item className="flex flex-row items-center px-6 py-2 gap-4 rounded-tl-lg rounded-tr-lg hover:bg-zinc-400 transition-colors cursor-pointer">
+              <DropdownMenu.Item className="flex flex-row items-center px-6 py-2 gap-4 rounded-tl-lg rounded-tr-lg hover:bg-blue-700 transition-colors cursor-pointer">
                 <Gear size={20} className="text-white" />
                 <p className="text-white">Settings</p>
               </DropdownMenu.Item>
 
               <DropdownMenu.Separator className="DropdownMenuSeparator" />
 
-              <DropdownMenu.Item className="flex flex-row items-center px-6 py-2 gap-4 hover:bg-zinc-400 transition-colors cursor-pointer">
+              <DropdownMenu.Item className="flex flex-row items-center px-6 py-2 gap-4 hover:bg-blue-700 transition-colors cursor-pointer">
                 <Sparkle size={20} className="text-white" />
                 <p className="text-white">About</p>
               </DropdownMenu.Item>
@@ -115,7 +115,7 @@ export function ConversationHeader() {
 
               <DropdownMenu.Item
                 onClick={handleSignOut}
-                className="flex flex-row items-center px-6 py-2 gap-4 rounded-bl-lg rounded-br-lg hover:bg-zinc-400 transition-colors cursor-pointer"
+                className="flex flex-row items-center px-6 py-2 gap-4 rounded-bl-lg rounded-br-lg hover:bg-blue-700 transition-colors cursor-pointer"
               >
                 <SignOut size={20} className="text-white" />
                 <p className="text-white">Sign Out</p>
