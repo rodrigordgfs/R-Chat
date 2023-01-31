@@ -11,7 +11,7 @@ export function ConversationInput() {
   function handleSendMessage(e: FormEvent) {
     e.preventDefault();
     if (message.length > 0) {
-      handleNewMessages(message);
+      handleNewMessages(message.trim());
       setMessage("");
     }
   }
@@ -35,7 +35,7 @@ export function ConversationInput() {
           className="flex-1 h-12 rounded-lg bg-zinc-800 p-4 text-white placeholder:text-white hover:outline-blue-700"
           placeholder="Write a message ..."
           value={message}
-          onChange={(e) => setMessage(e.target.value.trim())}
+          onChange={(e) => setMessage(e.target.value)}
         />
         <button className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-blue-700 transition-colors cursor-pointer">
           <PaperPlaneRight size={28} className="text-white" />
