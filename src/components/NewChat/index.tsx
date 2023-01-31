@@ -33,7 +33,7 @@ export function NewChat({ smallIcon }: NewChatProps) {
     setEmail("");
     setIsModalOpen(false);
   }
-
+ 
   return (
     <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
       <Dialog.Trigger>
