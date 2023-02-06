@@ -4,6 +4,7 @@ import { FormEvent, useContext, useState } from "react";
 import { SettingsContext } from "../../contexts/settings";
 import { ChatsContext } from "../../contexts/chats";
 import { toast } from "react-toastify";
+import { warningMessage } from "../../utils/toast";
 
 interface NewChatProps {
   smallIcon?: boolean;
@@ -19,21 +20,14 @@ export function NewChat({ smallIcon }: NewChatProps) {
   function handleNewChat(e: FormEvent) {
     e.preventDefault();
     if (checkIfEmailAlreadyExists(email)) {
-      toast.warning("There is already a conversation with this user", {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        theme: "colored",
-      });
+      warningMessage("There is already a conversation with this user");
       return;
     }
     handleCreateNewChat(email);
     setEmail("");
     setIsModalOpen(false);
   }
- 
+
   return (
     <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
       <Dialog.Trigger>

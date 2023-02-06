@@ -8,23 +8,17 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import Drawer from "react-modern-drawer";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import "react-modern-drawer/dist/index.css";
 import { Chats } from "../Chats";
-import { useNavigate } from "react-router-dom";
 import { SettingsContext } from "../../contexts/settings";
 import { ChatsContext } from "../../contexts/chats";
+import { UserContext } from "../../contexts/user";
 
 export function ConversationHeader() {
-  const navigate = useNavigate();
-
   const { isDrawerOpen, toogleDrawer } = useContext(SettingsContext);
   const { activeChatID, currentChat } = useContext(ChatsContext);
-
-  function handleSignOut() {
-    localStorage.removeItem("user");
-    navigate("/login");
-  }
+  const { handleSignOut } = useContext(UserContext);
 
   return (
     <div className="w-full h-16 bg-zinc-900 border-l-2 border-zinc-800 flex flex-row items-center px-4 shadow-lg">
