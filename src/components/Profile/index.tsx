@@ -11,16 +11,27 @@ export function Profile() {
   const [about, setAbout] = useState("");
 
   const { toogleDrawer } = useContext(SettingsContext);
-  const { user } = useContext(UserContext);
+  const { user, handleUpdateUserInfo } = useContext(UserContext);
 
   useEffect(() => {
     setImage(user.photoURL);
     setName(user.displayName);
     setEmail(user.email);
+    setAbout(user.about);
   }, []);
 
   function handleSaveProfile(e: FormEvent) {
     e.preventDefault();
+    handleUpdateUserInfo(image, name, about);
+  }
+
+  function handleChangeImage(e: any) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result as string);
+    };
   }
 
   return (
@@ -47,9 +58,19 @@ export function Profile() {
             <div className="h-44 w-44 rounded-full shadow-lg flex items-center justify-center bg-zinc-900">
               <div className="relative">
                 <img src={image} className="h-40 w-40 rounded-full" />
-                <div className="absolute bottom-0 right-0 h-10 w-10 rounded-full flex items-center justify-center shadow-lg bg-zinc-900 hover:bg-blue-700 transition-colors cursor-pointer">
+                <input
+                  style={{ display: "none" }}
+                  type="file"
+                  accept="image/*"
+                  id="image-picker"
+                  onChange={handleChangeImage}
+                />
+                <label
+                  htmlFor="image-picker"
+                  className="absolute bottom-0 right-0 h-10 w-10 rounded-full flex items-center justify-center shadow-lg bg-zinc-900 hover:bg-blue-700 transition-colors cursor-pointer"
+                >
                   <Image size={20} className="text-white" />
-                </div>
+                </label>
               </div>
             </div>
           </Dialog.Title>

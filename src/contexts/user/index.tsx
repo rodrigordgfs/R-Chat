@@ -24,6 +24,11 @@ interface UserContextType {
   ) => void;
   handleLogin: (email: string, password: string) => void;
   handleSignOut: () => void;
+  handleUpdateUserInfo: (
+    photoURL: string,
+    displayName: string,
+    about: string
+  ) => void;
 }
 
 interface UserContextProps {
@@ -193,6 +198,26 @@ export function UserContextProvider({ children }: UserContextProps) {
     navigate("/login");
   }
 
+  async function handleUpdateUserInfo(
+    photoURL: string,
+    displayName: string,
+    about: string
+  ) {
+    toogleLoading();
+    const { error } = await supabase
+      .from("users")
+      .update({ photoURL, displayName, about })
+      .eq("id", user.id);
+    if (error) {
+      errorMessage(error.message);
+      toogleLoading();
+      return;
+    }
+    successMessage("User updated!");
+    setUser({ ...user, photoURL, displayName, about });
+    toogleLoading();
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -201,6 +226,7 @@ export function UserContextProvider({ children }: UserContextProps) {
         handleLogin,
         handleRegister,
         handleSignOut,
+        handleUpdateUserInfo,
       }}
     >
       {children}
