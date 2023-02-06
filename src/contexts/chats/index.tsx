@@ -55,9 +55,10 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
 
   const isChatListEmpty = chats.length === 0;
 
-  const { handleGetUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  const checkIfEmailAlreadyExists = (email: string) => chats.some((chat) => chat.user.email === email);
+  const checkIfEmailAlreadyExists = (email: string) =>
+    chats.some((chat) => chat.user.email === email);
 
   useEffect(() => {
     setCurrentChat(chats.find((chat) => chat.id === activeChatID) as ChatProps);
@@ -84,7 +85,10 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
     setActiveChatID(chatID);
   }
 
-  function handleChatMessage(message: string, userId: string) {
+  function handleChatMessage(
+    message: string,
+    userId: string | null | undefined
+  ) {
     const newMessage = {
       id: uuidv4(),
       userID: userId,
@@ -104,7 +108,7 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
   }
 
   function handleNewMessages(message: string) {
-    handleChatMessage(message, handleGetUser().uid);
+    handleChatMessage(message, user.id);
     setTimeout(() => {
       handleChatMessage(
         MESSAGES[Math.floor(Math.random() * MESSAGES.length)],

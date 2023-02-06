@@ -7,13 +7,11 @@ import { UserContext } from "../../contexts/user";
 export function Profile() {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("" as string | undefined);
   const [about, setAbout] = useState("");
 
   const { toogleDrawer } = useContext(SettingsContext);
-  const { handleGetUser } = useContext(UserContext);
-
-  const user = handleGetUser();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     setImage(user.photoURL);

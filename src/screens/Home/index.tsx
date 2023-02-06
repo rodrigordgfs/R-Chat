@@ -7,6 +7,7 @@ import { UserContext } from "../../contexts/user";
 import { ChatsContext } from "../../contexts/chats";
 import { NoChatSelected } from "../../components/NoChatSelected";
 import { ToastContainer } from "react-toastify";
+import { Loading } from "../../components/Loading";
 
 export function Home() {
   const navigate = useNavigate();
@@ -20,19 +21,21 @@ export function Home() {
   }, []);
 
   return (
-    <main className="bg-zinc-300 w-screen h-screen flex justify-center">
-      <div className="w-screen h-screen bg-white mx-0 my-auto flex flex-col shadow-md">
-        <ConversationHeader />
-        {activeChatID ? (
-          <>
-            <ConversationChat />
-            <ConversationInput />
-          </>
-        ) : (
-          <NoChatSelected />
-        )}
-      </div>
-      <ToastContainer />
-    </main>
+    <Loading>
+      <main className="bg-zinc-300 w-screen h-screen flex justify-center">
+        <div className="w-screen h-screen bg-white mx-0 my-auto flex flex-col shadow-md">
+          <ConversationHeader />
+          {activeChatID ? (
+            <>
+              <ConversationChat />
+              <ConversationInput />
+            </>
+          ) : (
+            <NoChatSelected />
+          )}
+        </div>
+        <ToastContainer />
+      </main>
+    </Loading>
   );
 }
