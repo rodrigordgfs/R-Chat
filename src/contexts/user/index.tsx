@@ -14,7 +14,7 @@ interface UserType {
 }
 
 interface UserContextType {
-  user: UserType;
+  getUserData: () => UserType;
   isLoggedIn: () => boolean;
   handleRegister: (
     username: string,
@@ -44,8 +44,16 @@ export function UserContextProvider({ children }: UserContextProps) {
 
   const navigate = useNavigate();
 
+  function getUserData() {
+    return JSON.parse(localStorage.getItem("user") || "{}");
+  }
+
+  function setUserData(data: UserType) {
+    localStorage.setItem("user", JSON.stringify(data));
+  }
+
   function isLoggedIn() {
-    return !!user?.id;
+    return !!getUserData()?.id;
   }
 
   async function checkIfDataExists(field: string, value: string) {
@@ -78,7 +86,14 @@ export function UserContextProvider({ children }: UserContextProps) {
       errorMessage(error.message);
       return false;
     }
-    setUser({ id, email, username, about: "", displayName: "", photoURL: "" });
+    setUserData({
+      id,
+      email,
+      username,
+      about: "",
+      displayName: "",
+      photoURL: "",
+    });
     toogleLoading();
     return true;
   }
@@ -149,7 +164,7 @@ export function UserContextProvider({ children }: UserContextProps) {
     }
   }
 
-  async function getUserData(id: string | undefined | null): Promise<Boolean> {
+  async function syncUserData(id: string | undefined | null): Promise<Boolean> {
     const { data, error } = await supabase
       .from("users")
       .select("*")
@@ -159,7 +174,7 @@ export function UserContextProvider({ children }: UserContextProps) {
       errorMessage(error.message);
       return false;
     }
-    setUser({
+    setUserData({
       id: data?.[0].id,
       username: data?.[0].username,
       email: data?.[0].email,
@@ -187,14 +202,14 @@ export function UserContextProvider({ children }: UserContextProps) {
         toogleLoading();
         return;
       }
-      if (await getUserData(data.user?.id)) {
+      if (await syncUserData(data.user?.id)) {
         navigate("/");
       }
     }
   }
 
   function handleSignOut() {
-    setUser({} as UserType);
+    setUserData({} as UserType);
     navigate("/login");
   }
 
@@ -207,21 +222,21 @@ export function UserContextProvider({ children }: UserContextProps) {
     const { error } = await supabase
       .from("users")
       .update({ photoURL, displayName, about })
-      .eq("id", user.id);
+      .eq("id", getUserData().id);
     if (error) {
       errorMessage(error.message);
       toogleLoading();
       return;
     }
     successMessage("User updated!");
-    setUser({ ...user, photoURL, displayName, about });
+    setUserData({ ...getUserData(), photoURL, displayName, about });
     toogleLoading();
   }
 
   return (
     <UserContext.Provider
       value={{
-        user,
+        getUserData,
         isLoggedIn,
         handleLogin,
         handleRegister,

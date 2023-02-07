@@ -11,13 +11,13 @@ export function Profile() {
   const [about, setAbout] = useState("");
 
   const { toogleDrawer } = useContext(SettingsContext);
-  const { user, handleUpdateUserInfo } = useContext(UserContext);
+  const { getUserData, handleUpdateUserInfo } = useContext(UserContext);
 
   useEffect(() => {
-    setImage(user.photoURL);
-    setName(user.displayName);
-    setEmail(user.email);
-    setAbout(user.about);
+    setImage(getUserData().photoURL);
+    setName(getUserData().displayName);
+    setEmail(getUserData().email);
+    setAbout(getUserData().about);
   }, []);
 
   function handleSaveProfile(e: FormEvent) {
@@ -57,7 +57,10 @@ export function Profile() {
           <Dialog.Title className="flex flex-row items-center justify-center -mt-36">
             <div className="h-44 w-44 rounded-full shadow-lg flex items-center justify-center bg-zinc-900">
               <div className="relative">
-                <img src={image} className="h-40 w-40 rounded-full" />
+                <img
+                  src={image ?? "https://i.imgur.com/0sluqzx.png"}
+                  className="h-40 w-40 rounded-full"
+                />
                 <input
                   style={{ display: "none" }}
                   type="file"
@@ -109,7 +112,7 @@ export function Profile() {
             </div>
             <button
               type="submit"
-              className="py-3 rounded-lg shadow-lg font-semibold w-full bg-blue-700 hover:bg-blue-600 transition-colors text-white"
+              className="bg-blue-700 hover:bg-blue-600 transition-colors text-white rounded-md h-9 mt-2 font-semibold"
             >
               Save
             </button>

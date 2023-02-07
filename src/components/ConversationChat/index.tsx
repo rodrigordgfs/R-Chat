@@ -6,12 +6,12 @@ import { UserContext } from "../../contexts/user";
 
 export function ConversationChat() {
   const { currentChat } = useContext(ChatsContext);
-  const { user } = useContext(UserContext);
+  const { getUserData } = useContext(UserContext);
 
   return (
     <div className="flex-1 px-4 overflow-scroll bg-zinc-800 overflow-x-hidden scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-zinc-600">
       {currentChat?.messages.map((data) => {
-        if (user.id === data.userID) {
+        if (getUserData().id === data.userID) {
           return (
             <ConversationTileSent
               key={data.id}

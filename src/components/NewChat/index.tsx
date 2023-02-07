@@ -14,18 +14,14 @@ export function NewChat({ smallIcon }: NewChatProps) {
   const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { toogleDrawer } = useContext(SettingsContext);
-  const { handleCreateNewChat, checkIfEmailAlreadyExists } =
-    useContext(ChatsContext);
+  const { handleCreateNewChat } = useContext(ChatsContext);
 
-  function handleNewChat(e: FormEvent) {
+  async function handleNewChat(e: FormEvent) {
     e.preventDefault();
-    if (checkIfEmailAlreadyExists(email)) {
-      warningMessage("There is already a conversation with this user");
-      return;
+    if (await handleCreateNewChat(email)) {
+      setEmail("");
+      setIsModalOpen(false);
     }
-    handleCreateNewChat(email);
-    setEmail("");
-    setIsModalOpen(false);
   }
 
   return (

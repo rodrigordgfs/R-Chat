@@ -10,20 +10,31 @@ import { v4 as uuidv4 } from "uuid";
 import { PERSON_NAMES } from "../../utils/names";
 import { MESSAGES } from "../../utils/messages";
 import { toast } from "react-toastify";
+import { supabase } from "../../libs/supabase";
+import { errorMessage } from "../../utils/toast";
+import { SettingsContext } from "../settings";
 
 interface ChatsSettingsContextType {
   activeChatID: string;
   isChatListEmpty: boolean;
   currentChat: ChatProps;
   chats: ChatProps[];
-  checkIfEmailAlreadyExists: (email: string) => boolean;
   handleNewMessages: (message: string) => void;
-  handleCreateNewChat: (email: string) => void;
   handleSetAdctiveChatID: (id: string) => void;
+  handleCreateNewChat: (email: string) => Promise<Boolean | any>;
 }
 
 interface ChatsContextProps {
   children: ReactNode;
+}
+
+interface IUser {
+  id: string | undefined | null;
+  username: string | undefined | null;
+  email: string | undefined;
+  displayName: string;
+  photoURL: string;
+  about: string;
 }
 
 interface UserProps {
@@ -55,30 +66,54 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
 
   const isChatListEmpty = chats.length === 0;
 
-  const { user } = useContext(UserContext);
-
-  const checkIfEmailAlreadyExists = (email: string) =>
-    chats.some((chat) => chat.user.email === email);
+  const { getUserData } = useContext(UserContext);
+  const { toogleLoading } = useContext(SettingsContext);
 
   useEffect(() => {
     setCurrentChat(chats.find((chat) => chat.id === activeChatID) as ChatProps);
   }, [activeChatID]);
 
-  function handleCreateNewChat(email: string) {
-    const newChat = {
-      id: uuidv4(),
-      user: {
-        id: uuidv4(),
-        name: PERSON_NAMES[Math.floor(Math.random() * PERSON_NAMES.length)],
-        photoURL: `https://randomuser.me/api/portraits/men/${
-          Math.floor(Math.random() * 50) + 1
-        }.jpg`,
-        email: email,
-      },
-      messages: [] as MessageProps[],
-    };
-    setChats((prevChats) => [...prevChats, newChat]);
-    setActiveChatID(newChat.id);
+  async function checkIfEmailExists(email: string): Promise<Boolean | any> {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email", email);
+    if (error) {
+      errorMessage(error.message);
+      return false;
+    }
+    if (data?.length === 0) {
+      return false;
+    } else {
+      return data[0];
+    }
+  }
+
+  async function handleCreateNewChat(email: string) {
+    toogleLoading();
+    const user = await checkIfEmailExists(email);
+    console.log(user);
+    if (!user) {
+      toogleLoading();
+      errorMessage("Email not found");
+      return false;
+    }
+    toogleLoading();
+    return true;
+    // const newChat = {
+    //   id: uuidv4(),
+    //   user: {
+    //     id: uuidv4(),
+    //     name: PERSON_NAMES[Math.floor(Math.random() * PERSON_NAMES.length)],
+    //     photoURL: `https://randomuser.me/api/portraits/men/${
+    //       Math.floor(Math.random() * 50) + 1
+    //     }.jpg`,
+    //     email: email,
+    //   },
+    //   messages: [] as MessageProps[],
+    // };
+    // setChats((prevChats) => [...prevChats, newChat]);
+    // setActiveChatID(newChat.id);
   }
 
   function handleSetAdctiveChatID(chatID: string) {
@@ -108,7 +143,7 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
   }
 
   function handleNewMessages(message: string) {
-    handleChatMessage(message, user.id);
+    handleChatMessage(message, getUserData().id);
     setTimeout(() => {
       handleChatMessage(
         MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
@@ -124,7 +159,6 @@ export function ChatsContextProvider({ children }: ChatsContextProps) {
         activeChatID,
         isChatListEmpty,
         currentChat,
-        checkIfEmailAlreadyExists,
         handleNewMessages,
         handleCreateNewChat,
         handleSetAdctiveChatID,
